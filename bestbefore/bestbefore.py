@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-# S***y bestbefore puzzle by tony@lazarew.me
+# Spotify bestbefore puzzle by tony@lazarew.me
 
 import datetime
+import itertools
 import sys
 
 
@@ -36,25 +37,12 @@ def PH_DAY(d):
         raise DecodeError
 
 
-# Possible date formats
-FORMATS = (
-    (PH_YEAR, PH_MONTH, PH_DAY),
-    (PH_YEAR, PH_DAY, PH_MONTH),
-    (PH_DAY, PH_MONTH, PH_YEAR),
-    (PH_MONTH, PH_DAY, PH_YEAR),
-
-    # Very unlikely combinations, but still considering them.
-    (PH_DAY, PH_YEAR, PH_MONTH),
-    (PH_MONTH, PH_YEAR, PH_DAY)
-)
-
-
 def calc_date(numbers):
     """
     numbers -- list of numbers which are supposed to form a date
     """
     valid = []
-    for fmt in FORMATS:
+    for fmt in itertools.permutations((PH_YEAR, PH_MONTH, PH_DAY)):
         try:
             decoded = dict((
                 (ph.__doc__, ph(numbers[i]))
