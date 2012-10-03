@@ -25,12 +25,10 @@ def calc_invitees(teams, friend_id=FRIEND_ID):
         reverse=True)
 
     invitees = []
-    for i, employee in enumerate(ranks):
-        projects = len(employees[employee])
-        prev = set()
-        for j in xrange(i):
-            prev |= employees[ranks[j]]
-        projects -= len(employees[employee] & prev)
+    prev = set()
+    for employee in ranks:
+        projects = len(employees[employee]) - len(employees[employee] & prev)
+        prev |= employees[employee]
         if projects:
             invitees.append(employee)
 

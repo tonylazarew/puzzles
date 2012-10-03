@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Spotify bestbefore puzzle by tony@lazarew.me
+# S***y bestbefore puzzle by tony@lazarew.me
 
 import datetime
 import itertools
