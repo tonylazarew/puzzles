@@ -53,7 +53,7 @@ int main()
          *buf = NULL;
 
     /* Reading stdin. */
-    ALLOCATEZERO(buf, MAX_INPUT_BUFFER, {return 1;});
+    ALLOCATEZERO(buf, MAX_INPUT_BUFFER + 1, {return 1;});
     ALLOCATEZERO(chunk, 1, {free(buf); return 1;});
     while (read(0, chunk, 1) != 0) {
         if (*chunk == '\n' || *chunk == 0 || strlen(buf) == MAX_INPUT_BUFFER)
@@ -69,7 +69,7 @@ int main()
         return 1;
     }
 
-    ALLOCATEZERO(date, 10, {free(buf); return 1;});
+    ALLOCATEZERO(date, 11, {free(buf); return 1;});
     if (!calc_date(numbers, date)) {
         printf("%s is illegal\n", buf);
         free(date);
@@ -93,7 +93,7 @@ int parse_input(const char *buf_in, unsigned int *numbers)
          *buf = NULL,
          i = 0;
 
-    ALLOCATEZERO(buf, strlen(buf_in) * sizeof(char), {return 0;});
+    ALLOCATEZERO(buf, strlen(buf_in) * sizeof(char) + 1, {return 0;});
     strncpy(buf, buf_in, strlen(buf_in));
     for (tok = strtok(buf, "/");
          i < MAX_TOKENS && tok;
