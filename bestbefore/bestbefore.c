@@ -66,7 +66,7 @@ int main()
     if (!parse_input(buf, numbers)) {
         printf("%s is illegal\n", buf);
         free(buf);
-        return 1;
+        return 0;
     }
 
     ALLOCATEZERO(date, 11, {free(buf); return 1;});
@@ -74,7 +74,7 @@ int main()
         printf("%s is illegal\n", buf);
         free(date);
         free(buf);
-        return 1;
+        return 0;
     }
 
     free(buf);
