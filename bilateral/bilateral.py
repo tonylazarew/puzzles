@@ -27,10 +27,9 @@ def calc_invitees(teams, friend_id=FRIEND_ID):
     invitees = []
     prev = set()
     for employee in ranks:
-        projects = len(employees[employee]) - len(employees[employee] & prev)
-        prev |= employees[employee]
-        if projects:
+        if len(employees[employee]) - len(employees[employee] & prev):
             invitees.append(employee)
+        prev |= employees[employee]
 
     return invitees
 
