@@ -11,7 +11,7 @@ def combs(items, slots):
         return 0
     return \
         reduce(mul, xrange(items + 1, slots + 1), 1) \
-        / math.factorial(slots - items + 1)
+        / math.factorial(slots - items)
 
 
 def calc_probability(m, n, t, p):
@@ -29,7 +29,7 @@ def calc_probability(m, n, t, p):
 
     favs = []
     total = combs(n, m)
-    for i in xrange(0, min(p - w, n - w) + 1):
+    for i in xrange(0, min(p, n) - w + 1):
         favs.append(combs(w + i, p) * combs(n - w - i, m - p))
     return math.fsum(favs) / total
 
