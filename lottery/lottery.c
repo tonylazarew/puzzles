@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define MAX_INPUT_BUFFER 32
 #define MAX_TOKENS 4
@@ -89,8 +90,7 @@ int parse_input(const char *buf_in, unsigned int *numbers)
     for (tok = strtok(buf, " ");
          i < MAX_TOKENS && tok;
          i++, numbers++, tok = strtok(NULL, " ")) {
-        if (sscanf(tok, "%u", numbers) != 1
-            || *numbers < 0 || *numbers > 1000 ) {
+        if (sscanf(tok, "%u", numbers) != 1 || *numbers > 1000 ) {
             return 0;
         }
     }

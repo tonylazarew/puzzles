@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #define MAX_INPUT_BUFFER 64
 #define MAX_TOKENS 3
@@ -98,8 +99,7 @@ int parse_input(const char *buf_in, unsigned int *numbers)
     for (tok = strtok(buf, "/");
          i < MAX_TOKENS && tok;
          i++, numbers++, tok = strtok(NULL, "/")) {
-        if (sscanf(tok, "%u", numbers) != 1
-            || *numbers < 0 || *numbers > 2999 ) {
+        if (sscanf(tok, "%u", numbers) != 1 || *numbers > 2999 ) {
             return 0;
         }
     }
@@ -135,7 +135,7 @@ int calc_date(const unsigned int *numbers, char *date)
         if (v == -1 || (v = date_repr(y, m, d)) == -1)
             continue;
 
-        if (*date_i == 0 || v < *date_i) {
+        if (*date_i == 0 || v < (int)*date_i) {
             date_i[0] = v;
             date_i[1] = y;
             date_i[2] = m;
@@ -177,7 +177,7 @@ int date_repr(unsigned int y, unsigned int m, unsigned int d)
  */
 int ph_year(unsigned int y)
 {
-    if (0 <= y && y <= 999)
+    if (y <= 999)
         return y + 2000;
     else if (2000 <= y && y <= 2999)
         return y;
