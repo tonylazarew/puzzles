@@ -2,16 +2,15 @@
 # S***y lottery puzzle by tony@lazarew.me
 
 import math
-from operator import mul
 import sys
 
 
 def combs(items, slots):
-    if items > slots:
-        return 0
-    return \
-        reduce(mul, xrange(items + 1, slots + 1), 1) \
-        / math.factorial(slots - items)
+    combs = 1.
+    for i in xrange(min(items, slots - items)):
+        combs *= float(slots - i) / (i + 1)
+
+    return int(math.ceil(combs))
 
 
 def calc_probability(m, n, t, p):
@@ -29,7 +28,7 @@ def calc_probability(m, n, t, p):
 
     favs = []
     total = combs(n, m)
-    for i in xrange(0, min(p, n) - w + 1):
+    for i in xrange((n - w - m + p) if (n - w + p) > m else 0, min(p, n) - w + 1):
         favs.append(combs(w + i, p) * combs(n - w - i, m - p))
     return math.fsum(favs) / total
 
