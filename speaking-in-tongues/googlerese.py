@@ -2,7 +2,6 @@
 # Google Code Jam (Qual Round 2012) by tony@lazarew.me
 # http://code.google.com/codejam/contest/1460488/dashboard
 
-import itertools
 import sys
 
 decode_seq = tuple("ynficwlbkuomxsevzpdrjgthaq")
