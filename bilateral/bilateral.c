@@ -124,9 +124,8 @@ int parse_input(const char *buf_in, size_t limit, unsigned int *numbers)
     for (tok = strtok(buf, " ");
          i < limit && tok;
          i++, numbers++, tok = strtok(NULL, " ")) {
-        if (sscanf(tok, "%u", numbers) != 1 || *numbers > 10000 ) {
+        if (sscanf(tok, "%u", numbers) != 1 || *numbers > 10000 )
             return 0;
-        }
     }
 
     if (i < limit)
@@ -184,12 +183,11 @@ unsigned int hopcroft_karp(node_t *nodes)
         *ptr = NULL,
         null_node = {0, NULL, NULL, INF, 0};
 
-    while (bfs(nodes, &null_node)) {
+    while (bfs(nodes, &null_node))
         for (ptr = nodes; ptr->id != 0; ptr++)
             if (ptr->id < 2000 && ptr->match == NULL
                 && dfs(ptr, nodes, &null_node))
                 match++;
-    }
 
     return match;
 }

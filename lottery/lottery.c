@@ -41,36 +41,29 @@ int main()
         /* t */ 0,
         /* p */ 0
     };
-    char *buf = NULL,
-         *chunk = NULL;
+    char buf[MAX_INPUT_BUFFER + 1] = "",
+         chunk[2] = "",
+         *buf_iter = NULL;
 
     /* Reading stdin. */
-    ALLOCATEZERO(buf, MAX_INPUT_BUFFER + 1, {return 1;});
-    ALLOCATEZERO(chunk, 1, {free(buf); return 1;});
     while (read(0, chunk, 1) != 0) {
         if (*chunk == '\n' || *chunk == 0 || strlen(buf) == MAX_INPUT_BUFFER)
             break;
         strncat(buf, chunk, 1);
     }
-    free(chunk);
 
-    if (!parse_input(buf, numbers)) {
-        free(buf);
+    if (!parse_input(buf, numbers))
         return 1;
-    }
-    free(buf);
 
     probability = calc_probability(
         numbers[0], numbers[1], numbers[2], numbers[3]);
 
-    ALLOCATEZERO(buf, 13, {printf("%.10f\n", probability); return 0;});
     snprintf(buf, 13, "%.10f", probability);
     if (probability > 0 && probability < 1)
-        for (chunk = buf + strlen(buf); chunk != buf; chunk--)
-            if (*chunk == '0') *chunk = 0;
-            else if (*chunk != 0) break;
+        for (buf_iter = buf + strlen(buf); buf_iter != buf; buf_iter--)
+            if (*buf_iter == '0') *buf_iter = 0;
+            else if (*buf_iter != 0) break;
     printf("%s\n", buf);
-    free(buf);
 
     return 0;
 }
@@ -90,9 +83,8 @@ int parse_input(const char *buf_in, unsigned int *numbers)
     for (tok = strtok(buf, " ");
          i < MAX_TOKENS && tok;
          i++, numbers++, tok = strtok(NULL, " ")) {
-        if (sscanf(tok, "%u", numbers) != 1 || *numbers > 1000 ) {
+        if (sscanf(tok, "%u", numbers) != 1 || *numbers > 1000 )
             return 0;
-        }
     }
     free(buf);
 

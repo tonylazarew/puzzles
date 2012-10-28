@@ -49,38 +49,29 @@ ph_component_t components[MAX_PERMUTATIONS][MAX_TOKENS] = {
 int main()
 {
     unsigned int numbers[MAX_TOKENS] = {0, 0, 0};
-    char *date = NULL,
-         *chunk = NULL,
-         *buf = NULL;
+    char date[11] = "",
+         buf[MAX_INPUT_BUFFER + 1] = "",
+         chunk[2] = "";
 
     /* Reading stdin. */
-    ALLOCATEZERO(buf, MAX_INPUT_BUFFER + 1, {return 1;});
-    ALLOCATEZERO(chunk, 1, {free(buf); return 1;});
     while (read(0, chunk, 1) != 0) {
         if (*chunk == '\n' || *chunk == 0 || strlen(buf) == MAX_INPUT_BUFFER)
             break;
         strncat(buf, chunk, 1);
     }
-    free(chunk);
 
     /* Parsing and processing the date. */
     if (!parse_input(buf, numbers)) {
         printf("%s is illegal\n", buf);
-        free(buf);
         return 0;
     }
 
-    ALLOCATEZERO(date, 11, {free(buf); return 1;});
     if (!calc_date(numbers, date)) {
         printf("%s is illegal\n", buf);
-        free(date);
-        free(buf);
         return 0;
     }
 
-    free(buf);
     puts(date);
-    free(date);
     return 0;
 }
 
@@ -99,9 +90,8 @@ int parse_input(const char *buf_in, unsigned int *numbers)
     for (tok = strtok(buf, "/");
          i < MAX_TOKENS && tok;
          i++, numbers++, tok = strtok(NULL, "/")) {
-        if (sscanf(tok, "%u", numbers) != 1 || *numbers > 2999 ) {
+        if (sscanf(tok, "%u", numbers) != 1 || *numbers > 2999 )
             return 0;
-        }
     }
     free(buf);
 
